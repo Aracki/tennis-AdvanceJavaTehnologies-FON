@@ -5,7 +5,6 @@
         <title>Lige</title>
         <link href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
-        
     <link href="assets/css/jquery-ui.min.css" rel="stylesheet">
     </head>
     <body onload="ucitajLige()">
@@ -26,6 +25,8 @@
         
         <section id="tabeleSection">
             <div class="container">
+               
+
                 <h2 style="text-align:center;">Tabela lige</h2>
                 <div class="row" id="row1">
                     <div id="divLevi" class="col-md-2">
@@ -48,24 +49,26 @@
 
             <div class="col-md-6">
                 <label >Naziv lige</label>
-                <input type="text" name="name" id="tacne" class="text ui-widget-content ui-corner-all">
+                <input type="text" name="name" id="nazivLige" class="text ui-widget-content ui-corner-all">
                 <label >Broj takmičara</label>
-                <input type="text" name="name" id="prvaKlasa" class="text ui-widget-content ui-corner-all">
+                <input type="text" name="name" id="brojTakmicara" class="text ui-widget-content ui-corner-all">
             </div>
             <div class="col-md-6">                    
-
+                <label >Takmicenje</label>
+                <select class="selectpicker" id="selectTakmicenja">
+                 </select>
             </div>
                 <!-- Allow form submission with keyboard without duplicating the dialog button -->
                 <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
                 </fieldset>
     </form>
+            
 </div>
 
         <script type="text/javascript" src="assets/bower_components/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="assets/js/main.js"></script>
         <script type="text/javascript" src="assets/js/lige.js"></script>
-        
         <script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
     </body>
 </html>

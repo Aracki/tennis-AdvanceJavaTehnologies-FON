@@ -318,3 +318,36 @@ function refreshTakmicenja() {
     id = window.setInterval(ucitajTakmicenja(), 100);
     window.clearInterval(id);
 }
+
+$(function(){
+    
+    ucitajTakmicenja();
+    
+    function napuniComboBoxTakmicenja(takmicenja){
+    
+    var options = $("#selectTakmicenja");
+$.each(takmicenja, function() {
+    options.append($("<option />").val(this.takmicenjeID).text(this.naziv));
+});
+    
+}
+
+function ucitajTakmicenja(){
+    $.ajax({
+        url: 'http://localhost:8084/tenis/rest/takmicenje',
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            napuniComboBoxTakmicenja(response);
+        },
+        error: function(res) {
+            console.log(res);
+        }
+    });
+}
+
+
+});

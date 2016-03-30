@@ -71,11 +71,11 @@ var dialog, form;
 
 dialog = $( "#dialog-form" ).dialog({
     autoOpen: false,
-    height: 700,
-    width: 510,
+    height: 450,
+    width: 500,
     modal: true,
     buttons: {
-        "Dodaj stavku": dodajLigu(),
+        "Dodaj ligu": dodajLigu,
         Cancel: function() {
             dialog.dialog( "close" );
         }
@@ -87,44 +87,64 @@ dialog = $( "#dialog-form" ).dialog({
 
 form = dialog.find( "form" ).on( "submit", function( event ) {
     event.preventDefault();
-    dodajLigu()();
+    dodajLigu();
 });
 
 function dodajLigu() {
-    var valid = true;   
     
-    return valid;
+      var valid = true;
+ 
+      var nazivLige = $('#nazivLige').val();
+      var brTakmicara = $('#brojTakmicara').val();
+      var takmicenjeId = $('#selectTakmicenja').val();
+ 
+      if ( valid ) {
+        
+        var liga = {
+            naziv: nazivLige,
+            brojTakmicara: brTakmicara,
+            takmicenje: {
+                takmicenjeID: takmicenjeId
+            }
+        };
+
+        $.ajax({
+            url: baseUrlRest + 'liga',
+            method: "POST",
+            data: JSON.stringify(liga),
+            dataType: 'text',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': getCookie('token')
+            },
+            success: function (response) {
+                alert("Uspesno ste kreirali ligu!");
+                window.location.href = baseUrl + "lige.html"
+            },
+            error: function (response) {
+                alert("Greska pri unosu lige!");
+            }
+        });
+      }
+      return valid;
 }
 
     $('#btnUnosLige').click(function(){
-
-//        listaStavkiJson = [];
-//
-//        var jsonS = {
-//            "datum" : todayDate(),
-//            "jmbg" : getCookie('dobavljac')
-//        };
-//        var json = JSON.stringify(jsonS);
-//
-//        $.ajax({
-//            type: "POST",
-//            url: getCookie("basicURL") + "dnevnaberba",
-//            data: json,
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            success: function (response) {
-//                dnevnaBerbaId = response[0].generated_key;
-//            },
-//            error: function (response) {
-//                refresh();
-//            }
-//        });
-
-
-
         dialog.dialog("open");
     });
 
 });
+
+  function checkLength( o, n, min, max ) {
+      if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        updateTips( "Length of " + n + " must be between " +
+          min + " and " + max + "." );
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+
 

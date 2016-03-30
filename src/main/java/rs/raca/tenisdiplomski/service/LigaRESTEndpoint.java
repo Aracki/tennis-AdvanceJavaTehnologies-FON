@@ -60,14 +60,13 @@ public class LigaRESTEndpoint {
     }
 
     @POST
-    @Path("/{liga}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response insertLiga(@HeaderParam("authorization") String authorization, @PathParam("takmicenje") int takmicenje, Liga liga) {
+    public Response insertLiga(@HeaderParam("authorization") String authorization, Liga liga) {
         EntityManager em = help.getEntityManager();
         if (help.isLogged(authorization, em)) {
             try {
-                liga.setTakmicenje(em.find(Takmicenje.class, takmicenje));
+                liga.setTakmicenje(em.find(Takmicenje.class, liga.getTakmicenje().getTakmicenjeID()));
                 help.persistObject(em, liga);
                 em.close();
                 return Response.status(Response.Status.CREATED).build();
