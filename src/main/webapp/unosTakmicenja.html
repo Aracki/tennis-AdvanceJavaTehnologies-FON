@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Pocetna strana</title>
+        <link href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
+    </head>
+
+    <body onload="ubaciTipove()" >
+    <ul class="nav nav-pills" id="navMeni">
+        <li role="presentation"><a href="pocetna.html">Rad sa takmicenjima</a></li>
+        <li role="presentation"><a href="lige.html">Rad sa ligama</a></li>
+        <li role="presentation"><a href="takmicari.html">Rad sa takmicarima</a></li>
+
+        <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Lige <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+            </ul>
+        </li>
+
+    </ul>
+
+
+    <section id="tabeleSection">
+        <div class="container" id="rowF">
+            <form id="addForm" >
+                <div class="form-group">
+                    <label for="model">Naziv takmicenja</label>
+                    <input type="text" class="form-control" id="naziv" value=""/>
+                </div>
+
+                <div class="form-group">
+
+                    <label >Tip takmicenja</label>
+                    <select name="tiptakmicenja" class="form-control" id="tipTakmicenjaSlc">
+                    </select>
+                </div>
+                <button type="button" id="btnDodajTakmicenje" class="btn btn-primary">Unesi takmicenje</button>
+            </form>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="assets/bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="rs.raca_tenisDiplomski_war_1.0PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>rs.raca.tenisdiplomski.domain.Liga</class>
+    <class>rs.raca.tenisdiplomski.domain.Mesto</class>
+    <class>rs.raca.tenisdiplomski.domain.Takmicenje</class>
+    <class>rs.raca.tenisdiplomski.domain.Takmicar</class>
+    <class>rs.raca.tenisdiplomski.domain.Tiptakmicenja</class>
+    <class>rs.raca.tenisdiplomski.domain.Administrator</class>
+    <class>rs.raca.tenisdiplomski.domain.Mec</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ps_baza?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="ivan"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="ivan"/>
+    </properties>
+  </persistence-unit>
+</persistence>
