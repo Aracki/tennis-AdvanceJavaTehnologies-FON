@@ -68,21 +68,21 @@ public class Takmicar implements Serializable {
     @Column(name = "fb_link")
     private String fbLink;
     @Column(name = "pozicija")
-    private Integer pozicija;
+    private int pozicija;
     @Column(name = "broj_pobeda")
-    private Integer brojPobeda;
+    private int brojPobeda;
     @Column(name = "broj_izgubljenih")
-    private Integer brojIzgubljenih;
+    private int brojIzgubljenih;
     @Column(name = "broj_poena")
-    private Integer brojPoena;
+    private int brojPoena;
     @Column(name = "gem_plus")
-    private Integer gemPlus;
+    private int gemPlus;
     @Column(name = "gem_minus")
-    private Integer gemMinus;
+    private int gemMinus;
     @Column(name = "set_plus")
-    private Integer setPlus;
+    private int setPlus;
     @Column(name = "set_minus")
-    private Integer setMinus;
+    private int setMinus;
     @JoinColumn(name = "liga", referencedColumnName = "ligaID")
     @ManyToOne
     private Liga liga;

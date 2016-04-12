@@ -80,7 +80,7 @@ function napuniTabeluTakmicenja(takmicenja) {
         table.border = '1';
         table.appendChild(table_body);
         var tHead = document.createElement('THEAD');
-        var arrayHeader = ["Naziv", "Datum pocetka", "Tip takmicenja"];
+        var arrayHeader = ["Naziv", "Datum pocetka", "Tip takmicenja", ""];
         for (var i = 0; i < arrayHeader.length; i++) {
             tHead.appendChild(document.createElement("TH")).appendChild(document.createTextNode(arrayHeader[i]));
         }
@@ -88,7 +88,7 @@ function napuniTabeluTakmicenja(takmicenja) {
         for (var x = 0; x < takmicenja.length; x++) {
             var tr = document.createElement('TR');
             table_body.appendChild(tr);
-            for (var j = 0; j < 4; j++) {
+            for (var j = 0; j <= 4; j++) {
 
                 var a = new Date(takmicenja[x].datumPocetka);
                 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -116,6 +116,13 @@ function napuniTabeluTakmicenja(takmicenja) {
                         b.id = "DDD" + takmicenja[x].takmicenjeID;
                         td.appendChild(b);
                         break;
+                    case 4:
+                         var b = document.createElement('BUTTON');
+                        b.className = "button btn-info";
+                        b.appendChild(document.createTextNode("Izmeni"));
+                        b.id = "DDD" + takmicenja[x].takmicenjeID;
+                        td.appendChild(b);
+                        break;
                     default:
                 }
                 tr.appendChild(td);
@@ -123,6 +130,31 @@ function napuniTabeluTakmicenja(takmicenja) {
         }
         table.appendChild(tHead);
     }
+}
+
+function ucitajLigeZaComboBox(){
+       $.ajax({
+        url: 'http://localhost:8084/tenis/rest/liga',
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            napuniLigeDropdown(response);
+        },
+        error: function(res) {
+            console.log(res);
+        }
+      });
+}
+
+function napuniLigeDropdown(result){
+    var options = $("#slct");
+    $.each(result, function() {
+        options
+            .append($('<li>').append($("<a>").attr('href', baseUrl + 'liga.html').text('dassda')));
+    });
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -322,13 +354,14 @@ function refreshTakmicenja() {
 $(function(){
     
     ucitajTakmicenja();
+    ucitajLigeZaComboBox();
     
     function napuniComboBoxTakmicenja(takmicenja){
     
     var options = $("#selectTakmicenja");
-$.each(takmicenja, function() {
-    options.append($("<option />").val(this.takmicenjeID).text(this.naziv));
-});
+    $.each(takmicenja, function() {
+        options.append($("<option />").val(this.takmicenjeID).text(this.naziv));
+    });
     
 }
 
@@ -350,4 +383,11 @@ function ucitajTakmicenja(){
 }
 
 
+});
+
+$('#slct').on('change', function (e) {
+    var optionSelected = $("option:selected", this);
+    izabranaLiga = this.value;
+   
+   alert(izabranaLiga);
 });

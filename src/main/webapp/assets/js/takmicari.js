@@ -3,6 +3,9 @@ $(function(){
     ucitajMesta();
 });
 
+var ligaId;
+var takmicenjeID;
+
 function ucitajMesta(){
     $.ajax({
         url: baseUrlRest + "mesto",
@@ -20,20 +23,20 @@ function ucitajMesta(){
     });
 }
 
-function napuniComboBoxMesto(mesta){
-    
-    var options = $("#selectMestox");
-    
-    
-    if(mesta){
-        $.each(mesta, function() {
-            options.append($("<option />").val(this.ptt).text(this.naziv));
-        });        
-    } else {
-        options.append($("<option />").val('').text(''));
+    function napuniComboBoxMesto(mesta){
 
+        var options = $("#selectMesto");
+        options.find('option')
+        .remove()
+        .end();
+        if(mesta){
+            $.each(mesta, function() {
+                options.append($("<option />").val(this.ptt).text(this.naziv));
+            });        
+        } else {
+            options.append($("<option />").val('').text(''));
+        }
     }
-}
 
  function ucitajLige(takmicenjeID){
     
@@ -84,17 +87,20 @@ function napuniComboBoxLige(lige){
         });        
     } else {
         options.append($("<option />").val('').text(''));
-
     }
 }
 
 $('#selectTakmicenja').on('change', function (e) {
     var optionSelected = $("option:selected", this);
-    var takmicenjeID = this.value;
+    takmicenjeID = this.value;
    
     ucitajLige(takmicenjeID);
 });
 
+$('#selectLige').on('change', function (e) {
+    var optionSelected = $("option:selected", this);
+    ligaId = this.value;
+});
 
 $(function() {
 
@@ -131,7 +137,7 @@ function dodajTakmicara() {
       var ime = $('#ime').val();
       var prezime = $('#prezime').val();
       var opis = $('#opis').val();
-       var mesto = $('#selectMesto').val();
+      var mesto = $('#selectMesto').val();
 
       if ( valid ) {
         var takmicar = {
@@ -140,15 +146,11 @@ function dodajTakmicara() {
             opis: opis,
             mesto: {
                 ptt: mesto
-            },
-            brojTakmicara: brTakmicara,
-            takmicenje: {
-                takmicenjeID: takmicenjeId
             }
         };
 
         $.ajax({
-            url: baseUrlRest + 'takmicar',
+            url: baseUrlRest + 'takmicar/' + $('#selectLige').val(),
             method: "POST",
             data: JSON.stringify(takmicar),
             dataType: 'text',
@@ -157,11 +159,11 @@ function dodajTakmicara() {
                 'Authorization': getCookie('token')
             },
             success: function (response) {
-                alert("Uspesno ste kreirali ligu!");
-                window.location.href = baseUrl + "lige.html"
+                alert("Uspesno ste kreirali takmicara!");
+                window.location.href = baseUrl + "takmicari.html";
             },
             error: function (response) {
-                alert("Greska pri unosu lige!");
+                alert("Greska pri unosu takmicara!");
             }
         });
       }
