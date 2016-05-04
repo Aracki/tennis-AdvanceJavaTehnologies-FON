@@ -1,12 +1,14 @@
 var currentId;
 var takmicari;
 
+var dialog, form;
+
 $(function(){
     
     currentId = location.search.split('=')[1];
     // load page
-    ucitajLigu();    
-    ucitajTakmicare();
+    ucitajTakmicenje();  
+    ucitajModal();
 });
 
 $('#btnBack').click(function(){
@@ -14,10 +16,11 @@ $('#btnBack').click(function(){
 })
 
 
-function ucitajLigu(){
+function ucitajTakmicenje(){
     
    $.ajax({
-        url: 'http://localhost:8084/tenis/rest/liga?id=' + currentId,
+        url: 'http://localhost:8084/tenis/rest/takmicenje?id=' + currentId,
+//        url: 'http://localhost:8084/tenis/rest/takmicenje',        
         dataType: 'json',
         headers: {
             'Content-Type': 'application/json',
@@ -32,9 +35,9 @@ function ucitajLigu(){
       });
 };
 
-function ucitajTakmicare() {
+function ucitajLige() {
     $.ajax({
-        url: 'http://localhost:8084/tenis/rest/takmicar?liga=' + currentId,
+        url: 'http://localhost:8084/tenis/rest/liga?id=' + currentId,
         dataType: 'json',
         headers: {
             'Content-Type': 'application/json',
@@ -48,9 +51,24 @@ function ucitajTakmicare() {
     });
 }
 
-function napuniStranicu(ligaJson){
-    console.log(ligaJson);
-    $('#ligaNaslov').text(ligaJson.naziv);
+function ucitajTakmicare() {
+    $.ajax({
+        url: 'http://localhost:8084/tenis/rest/takmicar?liga=' + currentId,
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            takmicari = response;
+            napuniTabeluTakmicara();
+        }
+    });
+}
+
+function napuniStranicu(takmicenjeJson){
+    console.log(takmicenjeJson);
+    $('#takmicenjeNaslov').text(takmicenjeJson.naziv);
 }
 
 function napuniTabeluTakmicara() {
@@ -93,3 +111,36 @@ function napuniTabeluTakmicara() {
         table.appendChild(tHead);
     }
 }
+    
+
+function ucitajModal(){
+
+    dialog = $("#dialog-dodavanje-meca").dialog({
+    autoOpen: false,
+    height: 450,
+    width: 500,
+    modal: true,
+        buttons: {
+            "Dodaj mec": dodajMec,
+            Cancel: function() {
+                dialog.dialog( "close" );
+            }
+        },
+        close: function() {
+            form[ 0 ].reset();
+        }
+    }); 
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+        event.preventDefault();
+        dodajLigu();
+    });
+}
+
+function dodajMec(){
+    alert('1');
+}
+
+$('#btnUnosMeca').click(function (){
+    dialog.dialog("open");
+});

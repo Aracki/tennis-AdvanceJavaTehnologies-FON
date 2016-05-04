@@ -5,8 +5,7 @@
         <title>Takmicari</title>
         <link href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
-            <link href="assets/css/jquery-ui.min.css" rel="stylesheet">
-
+        <link href="assets/css/jquery-ui.min.css" rel="stylesheet">
     </head>
     <body onload="ucitajTakmicare()">
 
@@ -16,8 +15,8 @@
             <li role="presentation"><a href="takmicari.html">Rad sa takmicarima</a></li>
 
             <li class="dropdown" >
-                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Lige <b class="caret"></b></a>
-                <ul class="dropdown-menu" id="slct">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Takmicenja <b class="caret"></b></a>
+                <ul class="dropdown-menu" id="slctTakmicenja">
                 </ul>
             </li>
         </ul>
@@ -70,14 +69,40 @@
                 <!-- Allow form submission with keyboard without duplicating the dialog button -->
                 <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
                 </fieldset>
-    </form>
-            
-</div>
+            </form>
 
+        </div>  
+
+         <div id="dialog-edit-takmicara" title="Izmena podataka takmicara" hidden="hidden">
+    
+            <form>
+                <fieldset>
+
+            <div class="col-md-6">
+                <label >Ime</label>
+                <input type="text" name="name" id="ime" class="text ui-widget-content ui-corner-all">
+                <label >Prezime</label>
+                <input type="text" name="name" id="prezime" class="text ui-widget-content ui-corner-all">
+                <label >Opis</label>
+                <input type="text" name="name" id="opis" class="text ui-widget-content ui-corner-all">
+            </div>
+            <div class="col-md-6">                    
+                <label >Mesto</label>
+                <select class="selectpicker" id="selectMesto">
+                 </select>
+            </div>
+                <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+                </fieldset>
+            </form>
+
+        </div>  
+        
+        
         <script type="text/javascript" src="assets/bower_components/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="assets/js/main.js"></script>
-                <script type="text/javascript" src="assets/js/lige.js"></script>
+        <script type="text/javascript" src="assets/js/lige.js"></script>
         <script type="text/javascript" src="assets/js/takmicari.js"></script>        
         <script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
     </body>

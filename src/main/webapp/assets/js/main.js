@@ -88,7 +88,7 @@ function napuniTabeluTakmicenja(takmicenja) {
         for (var x = 0; x < takmicenja.length; x++) {
             var tr = document.createElement('TR');
             table_body.appendChild(tr);
-            for (var j = 0; j <= 4; j++) {
+            for (var j = 0; j <= 3; j++) {
 
                 var a = new Date(takmicenja[x].datumPocetka);
                 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -116,13 +116,6 @@ function napuniTabeluTakmicenja(takmicenja) {
                         b.id = "DDD" + takmicenja[x].takmicenjeID;
                         td.appendChild(b);
                         break;
-                    case 4:
-                         var b = document.createElement('BUTTON');
-                        b.className = "button btn-info";
-                        b.appendChild(document.createTextNode("Izmeni"));
-                        b.id = "DDD" + takmicenja[x].takmicenjeID;
-                        td.appendChild(b);
-                        break;
                     default:
                 }
                 tr.appendChild(td);
@@ -142,6 +135,23 @@ function ucitajLigeZaComboBox(){
         },
         success: function (response) {
             napuniLigeDropdown(response);
+        },
+        error: function(res) {
+            console.log(res);
+        }
+      });
+}
+
+function ucitajTakmicenjaZaDropdown(takmicenjaJson){
+       $.ajax({
+        url: 'http://localhost:8084/tenis/rest/takmicenje',
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            napuniTakmicenjaDropdown(response);
         },
         error: function(res) {
             console.log(res);
@@ -263,7 +273,7 @@ function napuniTabeluTakmicara() {
         for (var x = 0; x < takmicari.length; x++) {
             var tr = document.createElement('TR');
             table_body.appendChild(tr);
-            for (var j = 0; j < 4; j++) {
+            for (var j = 0; j <= 4; j++) {
                 var td = document.createElement('TD');
                 td.width = '50';
                 switch (j) {
@@ -280,6 +290,13 @@ function napuniTabeluTakmicara() {
                     case 3:
                         td.appendChild(document.createTextNode(takmicari[x].brojPobeda));
                         break;
+                    case 4:
+                        var b = document.createElement('BUTTON');
+                        b.className = "button btn-info";
+                        b.appendChild(document.createTextNode("Izmeni"));
+                        b.id = "III" + takmicari[x].takmicarID;
+                        td.appendChild(b);
+                        break;
                     default:
                 }
                 tr.appendChild(td);
@@ -289,6 +306,7 @@ function napuniTabeluTakmicara() {
     }
 }
 
+// function for deleting takmicenje
 $(document).on('click', '[id^=' + 'DDD' + "]", function () {
             var id = jQuery(this).attr("id");
             var niz = id.split('DDD');
@@ -311,9 +329,145 @@ $(document).on('click', '[id^=' + 'DDD' + "]", function () {
                             alert("Greska pri brisanju takmicenja...")
                         }
                     });
-                }
-            
+                }            
 });
+
+var dialogEditTakmicar, form;
+
+$(function (){
+    ucitajModal();
+    ucitajMesta();
+});
+
+function ucitajMesta(){
+    $.ajax({
+        url: baseUrlRest + "mesto",
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            napuniComboBoxMesto(response);
+        },
+        error: function(res) {
+            console.log(res);
+        }
+    });
+}
+
+function napuniComboBoxMesto(mesta){
+
+        var options = $("#selectMesto");
+        options.find('option')
+        .remove()
+        .end();
+        if(mesta){
+            $.each(mesta, function() {
+                options.append($("<option />").val(this.ptt).text(this.naziv));
+            });        
+        } else {
+            options.append($("<option />").val('').text(''));
+        }
+    }
+
+function ucitajModal(){
+
+    dialogEditTakmicar = $("#dialog-edit-takmicara").dialog({
+    autoOpen: false,
+    height: 450,
+    width: 500,
+    modal: true,
+        buttons: {
+            "Sacuvaj izmene": sacuvajIzmeneTakmicara,
+            Cancel: function() {
+                dialogEditTakmicar.dialog( "close" );
+            }
+        },
+        close: function() {
+            form[ 0 ].reset();
+        }
+    }); 
+
+    form = dialogEditTakmicar.find( "form" ).on( "submit", function( event ) {
+        event.preventDefault();
+    });
+}
+
+function sacuvajIzmeneTakmicara(){
+    
+    var ime = $('#ime').val();
+    var prezime = $('#prezime').val();
+    var opis = $('#opis').val();
+    var ptt = $('#selectMesto').val();
+    var ligaId = $('#selectLige').val();
+    
+    var takmicarJson = {
+        ime: ime,
+        prezime: prezime,
+        opis: opis,
+        takmicarID: idSelectedTakmicar,
+        mesto: {
+            ptt: ptt
+        },
+        liga: {
+            ligaID: ligaId
+        }
+    }
+    
+    $.ajax({
+            url: 'http://localhost:8084/tenis/rest/takmicar',
+            method: "PUT",
+            data: JSON.stringify(takmicarJson),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': getCookie('token')
+            },
+            success: function (response) {
+                alert("Uspesno ste izmenili takmicara!");
+                window.location.href = baseUrl + "takmicari.html"
+            },
+            error: function (response) {
+                alert("Greska pri izmeni takmicara!");
+            }
+        });
+}
+
+var idSelectedTakmicar;
+
+// function for editing takmicar
+$(document).on('click', '[id^=' + 'III' + "]", function () {
+            var id = jQuery(this).attr("id");
+            var niz = id.split('III');
+            var id1 = niz[1];
+            idSelectedTakmicar = id1;
+            
+            ucitajTakmicara(id1);
+});
+
+function ucitajTakmicara(id){
+    $.ajax({
+        url: 'http://localhost:8084/tenis/rest/takmicar?idTakmicara=' + id,
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            napuniPoljaEditTakmicara(response);
+        }
+    });
+}
+
+function napuniPoljaEditTakmicara(takmicarJson){
+    $('#ime').val(takmicarJson.ime);
+    $('#prezime').val(takmicarJson.prezime);
+    $('#opis').val(takmicarJson.opis);
+    $('#selectMesto').val(takmicarJson.mesto.ptt);
+    $('#selectMesto').change();
+
+    dialogEditTakmicar.dialog("open");
+}
 
 function refreshTakmicenja() {
     ucitajTakmicenja();
@@ -323,17 +477,14 @@ function refreshTakmicenja() {
 }
 
 $(function(){
-    
+   
     ucitajTakmicenja();
-    ucitajLigeZaComboBox();
     
     function napuniComboBoxTakmicenja(takmicenja){
-    
     var options = $("#selectTakmicenja");
     $.each(takmicenja, function() {
         options.append($("<option />").val(this.takmicenjeID).text(this.naziv));
     });
-    
 }
 
 function ucitajTakmicenja(){
@@ -346,6 +497,7 @@ function ucitajTakmicenja(){
         },
         success: function (response) {
             napuniComboBoxTakmicenja(response);
+            ucitajTakmicenjaZaDropdown(response);
         },
         error: function(res) {
             console.log(res);
@@ -359,5 +511,13 @@ function napuniLigeDropdown(result){
     $.each(result, function() {
         options
             .append($('<li>').append($("<a>").attr('href', baseUrl + 'liga.html?id=' + this.ligaID).text(this.naziv)));
+    });
+}
+
+function napuniTakmicenjaDropdown(result){
+    var options = $("#slctTakmicenja");
+    $.each(result, function() {
+        options
+            .append($('<li>').append($("<a>").attr('href', baseUrl + 'takmicenje.html?id=' + this.takmicenjeID).text(this.naziv)));
     });
 }

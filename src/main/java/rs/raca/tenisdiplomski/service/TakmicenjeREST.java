@@ -39,7 +39,7 @@ public class TakmicenjeREST {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTipTakmicenja(@HeaderParam("authorization") String authorization, @QueryParam("tip") int tip, @QueryParam("naziv") String naziv) {
+    public Response getTipTakmicenja(@HeaderParam("authorization") String authorization, @QueryParam("tip") int tip, @QueryParam("naziv") String naziv, @QueryParam("id") int id) {
         EntityManager em = help.getEntityManager();
         if (help.isLogged(authorization, em)) {
             String query = "SELECT t FROM Takmicenje t ";
@@ -53,6 +53,9 @@ public class TakmicenjeREST {
                 } else {
                     query += "WHERE t.naziv LIKE " + search;
                 }
+            }
+            if (id != 0) {
+                query += " WHERE t.takmicenjeID =" + id;
             }
             System.out.println(query);
             List<Takmicenje> takmicenja = em.createQuery(query).getResultList();

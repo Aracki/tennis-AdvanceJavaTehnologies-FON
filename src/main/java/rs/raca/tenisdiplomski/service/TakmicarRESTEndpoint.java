@@ -95,7 +95,6 @@ public class TakmicarRESTEndpoint {
     }
 
     @PUT
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateTakmicar(@HeaderParam("authorization") String authorization, Takmicar takmicar) {
         EntityManager em = help.getEntityManager();
