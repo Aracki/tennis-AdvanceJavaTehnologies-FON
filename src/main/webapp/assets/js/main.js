@@ -335,7 +335,6 @@ $(document).on('click', '[id^=' + 'DDD' + "]", function () {
 var dialogEditTakmicar, form;
 
 $(function (){
-    ucitajModal();
     ucitajMesta();
 });
 

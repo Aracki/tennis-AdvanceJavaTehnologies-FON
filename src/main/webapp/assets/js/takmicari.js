@@ -1,9 +1,10 @@
 $(function(){
     ucitajLige();
     ucitajMesta();
+    ucitajModal();
 });
 
-var ligaId;
+var ligaId = null;
 var takmicenjeID;
 
 function ucitajMesta(){
@@ -26,6 +27,18 @@ function ucitajMesta(){
     function napuniComboBoxMesto(mesta){
 
         var options = $("#selectMesto");
+        options.find('option')
+        .remove()
+        .end();
+        if(mesta){
+            $.each(mesta, function() {
+                options.append($("<option />").val(this.ptt).text(this.naziv));
+            });        
+        } else {
+            options.append($("<option />").val('').text(''));
+        }
+        
+        var options = $("#selectMesto1");
         options.find('option')
         .remove()
         .end();
@@ -102,9 +115,10 @@ $('#selectLige').on('change', function (e) {
     ligaId = this.value;
 });
 
+var dialog, form;
+
 $(function() {
 
-var dialog, form;
 
 dialog = $( "#dialog-dodavanje-takmicara" ).dialog({
     autoOpen: false,
@@ -134,10 +148,10 @@ function dodajTakmicara() {
     
       var valid = true;
  
-      var ime = $('#ime').val();
-      var prezime = $('#prezime').val();
-      var opis = $('#opis').val();
-      var mesto = $('#selectMesto').val();
+      var ime = $('#ime1').val();
+      var prezime = $('#prezime1').val();
+      var opis = $('#opis1').val();
+      var mesto = $('#selectMesto1').val();
 
       if ( valid ) {
         var takmicar = {
@@ -173,5 +187,30 @@ function dodajTakmicara() {
     $('#btnUnosTakmicara').click(function(){
         dialog.dialog("open");
     });
-
 });
+
+/// 777
+$('#btnUnosTakmicara').click(function(){
+        
+        if (ligaId != null) {
+            napuniRivale();
+            dialog.dialog("open");
+        }
+    });
+
+function napuniRivale(){
+    var gost = $('slctGost');
+    var domacin = $('slctDomacin');
+    
+    $.each(takmicari, function() {
+        gost
+            .append($('<li>')
+            .append($("<a>")
+            .text(this.ime)));
+   
+        domacin
+            .append($('<li>')
+            .append($("<a>")
+            .text(this.ime)));
+    });   
+}

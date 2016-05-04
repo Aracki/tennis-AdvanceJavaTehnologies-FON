@@ -87,11 +87,9 @@ public class TakmicarRESTEndpoint {
             } catch (RollbackException e) {
                 throw new MyRollbackException("Greska pri ubacivanju!");
             }
-
         } else {
             throw new NotAuthorizedException("Niste ulogovani!");
         }
-
     }
 
     @PUT
@@ -111,7 +109,6 @@ public class TakmicarRESTEndpoint {
             } else {
                 throw new DataNotFoundException("Ne postoji u bazi!");
             }
-
         } else {
             throw new NotAuthorizedException("Niste ulogovani!");
         }

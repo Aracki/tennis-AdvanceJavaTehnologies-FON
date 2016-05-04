@@ -19,8 +19,7 @@ $('#btnBack').click(function(){
 function ucitajTakmicenje(){
     
    $.ajax({
-        url: 'http://localhost:8084/tenis/rest/takmicenje?id=' + currentId,
-//        url: 'http://localhost:8084/tenis/rest/takmicenje',        
+        url: 'http://localhost:8084/tenis/rest/takmicenje?id=' + currentId, 
         dataType: 'json',
         headers: {
             'Content-Type': 'application/json',
@@ -28,6 +27,7 @@ function ucitajTakmicenje(){
         },
         success: function (response) {
             napuniStranicu(response[0]);
+            ucitajLige(response[0].takmicenjeID);
         },
         error: function(res) {
             console.log(res);
@@ -35,9 +35,11 @@ function ucitajTakmicenje(){
       });
 };
 
-function ucitajLige() {
+var takmicari;
+
+function ucitajLige(idTakmicenja) {
     $.ajax({
-        url: 'http://localhost:8084/tenis/rest/liga?id=' + currentId,
+        url: 'http://localhost:8084/tenis/rest/liga?takmicenje=' + idTakmicenja,
         dataType: 'json',
         headers: {
             'Content-Type': 'application/json',
@@ -51,9 +53,9 @@ function ucitajLige() {
     });
 }
 
-function ucitajTakmicare() {
+function ucitajTakmicare(id) {
     $.ajax({
-        url: 'http://localhost:8084/tenis/rest/takmicar?liga=' + currentId,
+        url: 'http://localhost:8084/tenis/rest/takmicar?liga=' + id,
         dataType: 'json',
         headers: {
             'Content-Type': 'application/json',
@@ -72,8 +74,11 @@ function napuniStranicu(takmicenjeJson){
 }
 
 function napuniTabeluTakmicara() {
+        
+    var table = document.getElementById('tabelaTakmicari');
+    table.innerHTML = "";
+    
     if (typeof takmicari !== "undefined") {
-        var table = document.getElementById('tabelaTakmicari');
         var table_body = document.createElement('TBODY');
         table.border = '1';
         table.appendChild(table_body);
@@ -137,10 +142,69 @@ function ucitajModal(){
     });
 }
 
+function ucitajLige(takmicenjeID){
+    
+    if(takmicenjeID){
+        $.ajax({
+        url: 'http://localhost:8084/tenis/rest/liga?takmicenje=' + takmicenjeID,
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            napuniComboBoxLige(response);
+        },
+        error: function(res) {
+                napuniComboBoxLige();
+        }
+    });
+    } else {
+        $.ajax({
+        url: 'http://localhost:8084/tenis/rest/liga',
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            napuniComboBoxLige(response);
+        },
+        error: function(res) {
+            console.log(res);
+        }
+      });
+    }
+}
+
+function napuniComboBoxLige(lige){
+    
+    var options = $("#selectLige");
+    options.find('option')
+    .remove()
+    .end();
+    if(lige){
+        $.each(lige, function() {
+            options.append($("<option />").val(this.ligaID).text(this.naziv));
+        });        
+    } else {
+        options.append($("<option />").val('').text(''));
+    }
+}
+
+$('#selectLige').on('change', function (e) {
+    var optionSelected = $("option:selected", this);
+    ligaId = this.value;
+    ucitajTakmicare(ligaId);
+});
+
 function dodajMec(){
     alert('1');
 }
 
 $('#btnUnosMeca').click(function (){
+    
+    
+    
     dialog.dialog("open");
 });
