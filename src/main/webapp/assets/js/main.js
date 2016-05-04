@@ -149,14 +149,6 @@ function ucitajLigeZaComboBox(){
       });
 }
 
-function napuniLigeDropdown(result){
-    var options = $("#slct");
-    $.each(result, function() {
-        options
-            .append($('<li>').append($("<a>").attr('href', baseUrl + 'liga.html').text('dassda')));
-    });
-}
-
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -297,27 +289,6 @@ function napuniTabeluTakmicara() {
     }
 }
 
-function sl() {
-    var list = $('#slct');
-    list.append(' <a href="#" data-toggle="dropdown" class="dropdown-toggle">Lige <b class="caret"></b></a>');
-    list.append('<ul class="dropdown-menu">')
-    for (var i = 0; i < lige.length; i++) {
-        // Create the list item:
-        var item = document.createElement('li');
-
-        // Set its contents:
-        item.appendChild(document.createTextNode(lige[i].naziv));
-
-        // Add it to the list:
-
-
-        list.append(item);
-    }
-
-    list.append('  </ul>')
-
-}
-
 $(document).on('click', '[id^=' + 'DDD' + "]", function () {
             var id = jQuery(this).attr("id");
             var niz = id.split('DDD');
@@ -381,13 +352,12 @@ function ucitajTakmicenja(){
         }
     });
 }
-
-
 });
 
-$('#slct').on('change', function (e) {
-    var optionSelected = $("option:selected", this);
-    izabranaLiga = this.value;
-   
-   alert(izabranaLiga);
-});
+function napuniLigeDropdown(result){
+    var options = $("#slct");
+    $.each(result, function() {
+        options
+            .append($('<li>').append($("<a>").attr('href', baseUrl + 'liga.html?id=' + this.ligaID).text(this.naziv)));
+    });
+}

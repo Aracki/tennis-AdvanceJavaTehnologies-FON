@@ -40,17 +40,21 @@ public class LigaRESTEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getLiga(@HeaderParam("authorization") String authorization, @QueryParam("takmicenje") int takmicenje) {
+    public Response getLiga(@HeaderParam("authorization") String authorization, @QueryParam("takmicenje") int takmicenje, @QueryParam("id") int ligaId) {
         EntityManager em = help.getEntityManager();
         if (help.isLogged(authorization, em)) {
             String query = "SELECT l FROM Liga l";
             if (takmicenje != 0) {
                 query += " WHERE l.takmicenje.takmicenjeID = " + takmicenje;
             }
+            
+            if (ligaId != 0) {
+                query += " WHERE l.ligaID = " + ligaId;
+            }
             System.out.println(query);
             List<Liga> lige = em.createQuery(query).getResultList();
             if (lige.isEmpty()) {
-                throw new DataNotFoundException("Nema takmicenja!");
+                throw new DataNotFoundException("Nema lige!");
             } else {
                 return Response.ok().entity(lige).build();
             }
