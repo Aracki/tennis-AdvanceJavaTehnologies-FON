@@ -1,6 +1,9 @@
 target/*
 nb-configuration.xml
 
+*/target/*
+*/target/**
+
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 
@@ -32,3 +35,4 @@ nb-configuration.xml
 ## File-based project format:
 *.ipr
 *.iws
+
