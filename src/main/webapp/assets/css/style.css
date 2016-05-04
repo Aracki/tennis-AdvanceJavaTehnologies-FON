@@ -17,3 +17,8 @@ html, body {
 #rowF{
        padding-left: 32%;
 }
+
+#btnBack {
+    margin-left: 30px;
+    margin-top: 20px;
+}
