@@ -200,7 +200,6 @@ $('#selectLige').on('change', function (e) {
 function dodajMec(){
     
     // post for inserting match
-    
     var domacin = $('#slctDomacin').val();
     var gost = $('#slctGost').val();
     var rezultat = $('#rezultat').val();
@@ -218,14 +217,14 @@ function dodajMec(){
     $.ajax({
         type: "POST",
         url: baseUrlRest + "match",
-        dataType: "json",
         data: JSON.stringify(mec),
         headers: {
                 'Content-Type': 'application/json',
                 'Authorization': getCookie('token')
         },
         success: function (response) {
-//            window.location.href = "pocetna.html";
+            alert("Uspesno ste uneli mec!");
+            dialog.dialog("close");
         },
         error: function (response) {
             alert("Niste se uspesno uneli mec!");
