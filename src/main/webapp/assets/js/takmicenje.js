@@ -49,7 +49,6 @@ function ucitajLige(idTakmicenja) {
             takmicari = response;
             napuniTabeluTakmicara();
         }
-
     });
 }
 
@@ -64,6 +63,7 @@ function ucitajTakmicare(id) {
         success: function (response) {
             takmicari = response;
             napuniTabeluTakmicara();
+            napuniModalRivali();
         }
     });
 }
@@ -138,7 +138,6 @@ function ucitajModal(){
 
     form = dialog.find( "form" ).on( "submit", function( event ) {
         event.preventDefault();
-        dodajLigu();
     });
 }
 
@@ -199,12 +198,61 @@ $('#selectLige').on('change', function (e) {
 });
 
 function dodajMec(){
-    alert('1');
+    
+    // post for inserting match
+    
+    var domacin = $('#slctDomacin').val();
+    var gost = $('#slctGost').val();
+    var rezultat = $('#rezultat').val();
+    
+    var mec = {
+        rezultat: rezultat,
+        takmicarDID: {
+            takmicarID: domacin
+        },
+        takmicarGID: {
+            takmicarID: gost
+        }
+    }
+    
+    $.ajax({
+        type: "POST",
+        url: baseUrlRest + "match",
+        dataType: "json",
+        data: JSON.stringify(mec),
+        headers: {
+                'Content-Type': 'application/json',
+                'Authorization': getCookie('token')
+        },
+        success: function (response) {
+//            window.location.href = "pocetna.html";
+        },
+        error: function (response) {
+            alert("Niste se uspesno uneli mec!");
+        }
+    });
+}
+
+function napuniModalRivali(){
+    var options1 = $("#slctGost");
+    var options2 = $("#slctDomacin");
+
+    options1.find('option')
+    .remove()
+    .end();
+    options2.find('option')
+    .remove()
+    .end();
+    
+    if(takmicari){
+        $.each(takmicari, function() {
+            options1.append($("<option />").val(this.takmicarID).text(this.ime + " " + this.prezime));
+            options2.append($("<option />").val(this.takmicarID).text(this.ime + " " + this.prezime));
+       });        
+    }
 }
 
 $('#btnUnosMeca').click(function (){
-    
-    
-    
+        
     dialog.dialog("open");
 });

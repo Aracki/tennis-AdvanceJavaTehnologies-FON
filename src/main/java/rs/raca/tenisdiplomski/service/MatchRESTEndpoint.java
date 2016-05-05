@@ -5,6 +5,7 @@
  */
 package rs.raca.tenisdiplomski.service;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
@@ -18,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import rs.raca.tenisdiplomski.domain.Mec;
+import rs.raca.tenisdiplomski.domain.Mec_;
 import rs.raca.tenisdiplomski.domain.Takmicar;
 import rs.raca.tenisdiplomski.exception.DataNotFoundException;
 import rs.raca.tenisdiplomski.exception.MyRollbackException;
@@ -57,13 +59,13 @@ public class MatchRESTEndpoint {
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response insertMatch(@HeaderParam("authorization") String authorization, Mec mec) {
         EntityManager em = help.getEntityManager();
         if (help.isLogged(authorization, em)) {
             Takmicar oldTakmicarDID = em.find(Takmicar.class, mec.getTakmicarDID().getTakmicarID());
             Takmicar oldTakmicarGID = em.find(Takmicar.class, mec.getTakmicarGID().getTakmicarID());
+            izvrsiUpdatePosleMeca(oldTakmicarDID, oldTakmicarGID, mec.getRezultat());
             Takmicar newTakmicarDID = mec.getTakmicarDID();
             Takmicar newTakmicarGID = mec.getTakmicarGID();
             if (oldTakmicarDID != null && oldTakmicarGID != null) {
@@ -85,5 +87,63 @@ public class MatchRESTEndpoint {
         } else {
             throw new NotAuthorizedException("Niste ulogovani!");
         }
+    }
+    
+    public void izvrsiUpdatePosleMeca(Takmicar domacin, Takmicar gost, String rezultat) {
+        
+            EntityManager em = help.getEntityManager();
+        
+            // 7:6, 2:6, 6:4
+            String[] setovi = rezultat.split(",");
+            int brGemDomPlus = 0;
+            int brSetDomPlus = 0;
+            int brGemGostPlus = 0;
+            int brSetGostPlus = 0;
+            
+            for (int i = 0; i < setovi.length; i++) {
+                String set = setovi[i].trim();
+                System.out.println("SET sa indexom " + i + "-> " + set);
+
+                String[] gem = set.split("-");
+                System.out.println("GEM -> " + Arrays.toString(gem));
+
+                if (Integer.parseInt(gem[0]) > Integer.parseInt(gem[1])) {
+                    brGemDomPlus += Integer.parseInt(gem[0].trim());
+                    brGemGostPlus += Integer.parseInt(gem[1].trim());
+                    brSetDomPlus++;
+//                    brSetGostPlus--;
+                }
+                if (Integer.parseInt(gem[1]) > Integer.parseInt(gem[0])) {
+                    brGemDomPlus += Integer.parseInt(gem[0].trim());
+                    brGemGostPlus += Integer.parseInt(gem[1].trim());
+//                    brSetDomPlus--;
+                    brSetGostPlus++;
+                }
+            }
+            
+            domacin.setGemPlus(brGemDomPlus + domacin.getGemPlus());
+            domacin.setGemMinus(domacin.getGemMinus() - brGemGostPlus);
+            gost.setGemPlus(brGemGostPlus + gost.getGemPlus());
+            gost.setGemMinus(gost.getGemMinus() - brGemDomPlus);
+
+            domacin.setSetPlus(domacin.getSetPlus() + brSetDomPlus);
+            domacin.setSetMinus(domacin.getSetMinus() - brSetGostPlus);
+            gost.setSetPlus(gost.getSetPlus() + brSetGostPlus);
+            gost.setSetMinus(gost.getSetMinus() - brSetDomPlus);
+
+            if (brSetDomPlus > brSetGostPlus) {
+                domacin.setBrojPobeda(domacin.getBrojPobeda() + 1);
+                gost.setBrojIzgubljenih(gost.getBrojIzgubljenih() - 1);
+            } else {
+                gost.setBrojPobeda(gost.getBrojPobeda() + 1);
+                domacin.setBrojIzgubljenih(domacin.getBrojIzgubljenih() - 1);
+            }
+            
+            try {
+                help.mergeObject(em, domacin);
+                help.mergeObject(em, gost);
+            } catch (RollbackException e) {
+                throw new MyRollbackException("Greska!");
+            }
     }
 }
