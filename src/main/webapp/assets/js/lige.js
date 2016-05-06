@@ -17,16 +17,22 @@ function ucitajLige() {
     });
 }
 function napuniTabeluLiga() {
+    
+    var table = document.getElementById('tabelaLiga');
+    
     if (typeof lige !== "undefined") {
-        var table = document.getElementById('tabelaLiga');
         var table_body = document.createElement('TBODY');
-        table.border = '1';
+        table.border = '2';
+        table_body.border = '2';
         table.appendChild(table_body);
         var tHead = document.createElement('THEAD');
-        var arrayHeader = ["Naziv lige", "Broj takmičraa", "Naziv takmičenja"];
+        var arrayHeader = ["Naziv lige", "Broj takmičara", "Naziv takmičenja"];
+        var tr = tHead.appendChild(document.createElement('TR'));
+        
         for (var i = 0; i < arrayHeader.length; i++) {
-            tHead.appendChild(document.createElement("TH")).appendChild(document.createTextNode(arrayHeader[i]));
+            tr.appendChild(document.createElement("TH")).appendChild(document.createTextNode(arrayHeader[i]));
         }
+        table.appendChild(tHead);
 
         for (var x = 0; x < lige.length; x++) {
             var tr = document.createElement('TR');
@@ -49,7 +55,6 @@ function napuniTabeluLiga() {
                 tr.appendChild(td);
             }
         }
-        table.appendChild(tHead);
     }
 }
 

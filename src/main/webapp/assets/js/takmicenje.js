@@ -80,13 +80,14 @@ function napuniTabeluTakmicara() {
     
     if (typeof takmicari !== "undefined") {
         var table_body = document.createElement('TBODY');
-        table.border = '1';
         table.appendChild(table_body);
         var tHead = document.createElement('THEAD');
         var arrayHeader = ["Ime", "Prezime", "Opis", "Broj pobeda"];
+        var tr = tHead.appendChild(document.createElement('TR'));        
         for (var i = 0; i < arrayHeader.length; i++) {
-            tHead.appendChild(document.createElement("TH")).appendChild(document.createTextNode(arrayHeader[i]));
+            tr.appendChild(document.createElement("TH")).appendChild(document.createTextNode(arrayHeader[i]));
         }
+        table.appendChild(tHead);
 
         for (var x = 0; x < takmicari.length; x++) {
             var tr = document.createElement('TR');
@@ -113,7 +114,7 @@ function napuniTabeluTakmicara() {
                 tr.appendChild(td);
             }
         }
-        table.appendChild(tHead);
+        table.border = '2';
     }
 }
     
