@@ -104,7 +104,7 @@ function napuniTabeluTakmicenja(takmicenja) {
                         break;
                     case 3:
                          var b = document.createElement('BUTTON');
-                        b.className = "button btn-danger";
+                        b.className = "btn btn-danger";
                         b.appendChild(document.createTextNode("Obriši"));
                         b.id = "DDD" + takmicenja[x].takmicenjeID;
                         td.appendChild(b);
@@ -279,14 +279,14 @@ function napuniTabeluTakmicara() {
                         break;
                     case 4:
                         var b = document.createElement('BUTTON');
-                        b.className = "button btn-info";
+                        b.className = "btn btn-info";
                         b.appendChild(document.createTextNode("Izmeni"));
                         b.id = "III" + takmicari[x].takmicarID;
                         td.appendChild(b);
                         break;
                     case 5:
                         var b = document.createElement('BUTTON');
-                        b.className = "button btn-danger";
+                        b.className = "btn btn-danger";
                         b.appendChild(document.createTextNode("Obrisi"));
                         b.id = "XXX" + takmicari[x].takmicarID;
                         td.appendChild(b);
@@ -508,10 +508,8 @@ $(function(){
     var options = $("#selectTakmicenja");
     
     $.each(takmicenja, function() {
-        options.append($("<li>")
-                .val(this.takmicenjeID)
-                .append($("<a>").attr('href', '#').text(this.naziv))
-                );
+        options
+                .append('<option value=' + this.takmicenjeID + '>' + this.naziv + '</option>');
     });
 }
 

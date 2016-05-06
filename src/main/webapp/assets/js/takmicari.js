@@ -65,24 +65,11 @@ function ucitajMesta(){
             napuniComboBoxLige(response);
         },
         error: function(res) {
-                napuniComboBoxLige();
+            napuniComboBoxLige(response);
         }
     });
     } else {
-        $.ajax({
-        url: 'http://localhost:8084/tenis/rest/liga',
-        dataType: 'json',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': getCookie('token')
-        },
-        success: function (response) {
-            napuniComboBoxLige(response);
-        },
-        error: function(res) {
-            console.log(res);
-        }
-      });
+        return;
     }
 }
 
@@ -94,12 +81,13 @@ function napuniComboBoxLige(lige){
     options.find('option')
     .remove()
     .end();
-    if(lige){
-        $.each(lige, function() {
-            options.append($("<option />").val(this.ligaID).text(this.naziv));
-        });        
+    
+    if (lige) {
+            $.each(lige, function() {
+                options.append($("<option />").val(this.ligaID).text(this.naziv));
+            });        
     } else {
-        options.append($("<option />").val('').text(''));
+            options.append($("<option />").val('').text('Niste izabrali takmicenje'));
     }
 }
 

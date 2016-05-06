@@ -26,22 +26,23 @@
             <div class="container">
                 <h1 style="text-align:center;"><span class="label label-primary">Tabela svih takmičara</span></h1>
                 <div class="row" id="row1">
-                    <div id="divLevi" class="col-md-2">
-                                        <label >Izaberi takmičenje</label>    
-                                        
+                    <div id="divLevi" class="col-md-2">   
+                                                <br>
+
                     <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Izaberi takmičenje
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu" id="selectTakmicenja">
-                        </ul>
-                    </div>
-                                        
-                                        
-                                        
-                <label >Izaberi ligu</label>
+                        <select class="form-control" id="selectTakmicenja" >
+                               <option value="0" selected="" hidden="" disabled="">Izaberi takmičenje</option>
+                        </select>
+                   </div>
+                        <br>
+                      
+                        <div class="dropdown">
+                        <select class="form-control" id="selectLige" >
+                               <option value="0" selected="" hidden="" disabled="">Izaberi ligu</option>
+
+                        </select>
+                        </div>
                         
-                         <select class="selectpicker" id="selectLige">
-                 </select>
                 <br><br>
                         <button id="btnUnosTakmicara" class="btn btn-info">Unos takmičara</button>
                     </div>
