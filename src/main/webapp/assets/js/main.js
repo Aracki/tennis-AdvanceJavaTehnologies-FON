@@ -19,15 +19,12 @@ function logIn() {
             xhr.setRequestHeader('Authorization', make_base_auth(username, password));
         },
         success: function (response) {
-            // json_token = response;
             window.location.href = "pocetna.html";
             document.cookie = "token=" + response.token;
-//            alert(response.token);
         },
         error: function (response) {
-            alert("Niste se uspesno ulogovali!");
+            alert("Niste se uspešno ulogovali!");
         }
-
     });
 }
 
@@ -50,12 +47,8 @@ function ucitajTakmicenja() {
             takmicenja = response;
             napuniTabeluTakmicenja(response);
         }
-
     });
 }
-
-
-
 
 function timeConverter(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
@@ -80,7 +73,7 @@ function napuniTabeluTakmicenja(takmicenja) {
         table.border = '1';
         table.appendChild(table_body);
         var tHead = document.createElement('THEAD');
-        var arrayHeader = ["Naziv", "Datum pocetka", "Tip takmicenja", ""];
+        var arrayHeader = ["Naziv", "Datum početka", "Tip takmičenja", ""];
         for (var i = 0; i < arrayHeader.length; i++) {
             tHead.appendChild(document.createElement("TH")).appendChild(document.createTextNode(arrayHeader[i]));
         }
@@ -179,15 +172,10 @@ function getCookie(cname) {
     return "";
 }
 
-$('#btnUnosTipaTakmicenje').click(function () {
-
-});
 $('#btnUnosTakmicenje').click(function () {
     window.location.href = "unosTakmicenja.html";
 });
-$('#btnUnosTipaTakmicenje').click(function () {
 
-});
 function ubaciTipove() {
     $.ajax({
         url: 'http://localhost:8084/tenis/rest/tipTakmicenja',
@@ -196,11 +184,9 @@ function ubaciTipove() {
             'Content-Type': 'application/json',
             'Authorization': getCookie('token')
         },
-//        async: false,
         success: function (response) {
             for (var i = 0; i < response.length; i++) {
                 var option = document.createElement("option");
-//                option.name = "tiptakmicenjaID";
                 option.value = response[i].tiptakmicenjaID;
                 option.innerHTML = response[i].nazivTipa;
                 option.id = "ido";
@@ -208,10 +194,8 @@ function ubaciTipove() {
                 select.appendChild(option);
             }
         }
-
-
     });
-    
+   
     // dodavanje takmicenja
     $('#btnDodajTakmicenje').click(function () {
 
@@ -232,11 +216,11 @@ function ubaciTipove() {
                 'Authorization': getCookie('token')
             },
             success: function (response) {
-                alert("Uspesno ste kreirali takmicenje!");
+                alert("Uspešno ste kreirali takmičenje!");
                 window.location.href = baseUrl + "pocetna.html"
             },
             error: function (response) {
-                alert("Greska pri unosu takmicenja!");
+                alert("Greška pri unosu takmičenja!");
             }
         });
     })
@@ -259,8 +243,11 @@ function ucitajTakmicare() {
     });
 }
 function napuniTabeluTakmicara() {
+    
+    var table = document.getElementById('tabelaTakmicari');
+    table.innerHTML = "";
+    
     if (typeof takmicari !== "undefined") {
-        var table = document.getElementById('tabelaTakmicari');
         var table_body = document.createElement('TBODY');
         table.border = '1';
         table.appendChild(table_body);
@@ -273,7 +260,7 @@ function napuniTabeluTakmicara() {
         for (var x = 0; x < takmicari.length; x++) {
             var tr = document.createElement('TR');
             table_body.appendChild(tr);
-            for (var j = 0; j <= 4; j++) {
+            for (var j = 0; j <= 5; j++) {
                 var td = document.createElement('TD');
                 td.width = '50';
                 switch (j) {
@@ -295,6 +282,13 @@ function napuniTabeluTakmicara() {
                         b.className = "button btn-info";
                         b.appendChild(document.createTextNode("Izmeni"));
                         b.id = "III" + takmicari[x].takmicarID;
+                        td.appendChild(b);
+                        break;
+                    case 5:
+                        var b = document.createElement('BUTTON');
+                        b.className = "button btn-danger";
+                        b.appendChild(document.createTextNode("Obrisi"));
+                        b.id = "XXX" + takmicari[x].takmicarID;
                         td.appendChild(b);
                         break;
                     default:
@@ -326,7 +320,7 @@ $(document).on('click', '[id^=' + 'DDD' + "]", function () {
                             alert("Usprešno ste obrisali takmicenje!");
                         },
                         error: function (response) {
-                            alert("Greska pri brisanju takmicenja...")
+                            alert("Greška pri brisanju takmicenja...")
                         }
                     });
                 }            
@@ -423,11 +417,11 @@ function sacuvajIzmeneTakmicara(){
                 'Authorization': getCookie('token')
             },
             success: function (response) {
-                alert("Uspesno ste izmenili takmicara!");
+                alert("Uspešno ste izmenili takmičara!");
                 window.location.href = baseUrl + "takmicari.html"
             },
             error: function (response) {
-                alert("Greska pri izmeni takmicara!");
+                alert("Greška pri izmeni takmičara!");
             }
         });
 }
@@ -444,6 +438,16 @@ $(document).on('click', '[id^=' + 'III' + "]", function () {
             ucitajTakmicara(id1);
 });
 
+// function for deleting takmicar
+$(document).on('click', '[id^=' + 'XXX' + "]", function () {
+            var id = jQuery(this).attr("id");
+            var niz = id.split('XXX');
+            var id1 = niz[1];
+            idSelectedTakmicar = id1;
+            
+            obrisiTakmicara(id1);
+});
+
 function ucitajTakmicara(id){
     $.ajax({
         url: 'http://localhost:8084/tenis/rest/takmicar?idTakmicara=' + id,
@@ -454,6 +458,21 @@ function ucitajTakmicara(id){
         },
         success: function (response) {
             napuniPoljaEditTakmicara(response);
+        }
+    });
+}
+
+
+function obrisiTakmicara(id){
+    $.ajax({
+        url: 'http://localhost:8084/tenis/rest/takmicar?id=' + id,
+        method: 'DELETE',
+        headers: {
+            'Authorization': getCookie('token')
+        },
+        success: function (response) {
+            refreshTakmicara();
+            alert("Uspešno ste obrisali takmičara!")
         }
     });
 }
@@ -475,14 +494,24 @@ function refreshTakmicenja() {
     window.clearInterval(id);
 }
 
-$(function(){
-   
+function refreshTakmicara() {
+    ucitajTakmicare();
+    var id = 0;
+    id = window.setInterval(ucitajTakmicare(), 100);
+    window.clearInterval(id);
+}
+
+$(function(){   
     ucitajTakmicenja();
     
     function napuniComboBoxTakmicenja(takmicenja){
     var options = $("#selectTakmicenja");
+    
     $.each(takmicenja, function() {
-        options.append($("<option />").val(this.takmicenjeID).text(this.naziv));
+        options.append($("<li>")
+                .val(this.takmicenjeID)
+                .append($("<a>").attr('href', '#').text(this.naziv))
+                );
     });
 }
 

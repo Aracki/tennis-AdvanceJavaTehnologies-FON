@@ -5,16 +5,17 @@
         <title>Pocetna strana</title>
         <link href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
+        <link rel="icon" href="assets/css/images/ball.png" />
     </head>
     <body onload="ucitajTakmicenja()">
 
         <ul class="nav nav-pills" id="navMeni">
-            <li role="presentation"><a href="pocetna.html">Rad sa takmicenjima</a></li>
+            <li role="presentation"><a href="pocetna.html">Rad sa takmičenjima</a></li>
             <li role="presentation"><a href="lige.html">Rad sa ligama</a></li>
-            <li role="presentation"><a href="takmicari.html">Rad sa takmicarima</a></li>
+            <li role="presentation"><a href="takmicari.html">Rad sa takmičarima</a></li>
 
             <li class="dropdown" >
-                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Takmicenja<b class="caret"></b></a>
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Takmičenja <b class="caret"></b></a>
                 <ul class="dropdown-menu" id="slctTakmicenja">
                 </ul>
             </li>
@@ -22,12 +23,11 @@
 
         <section id="tabeleSection">
             <div class="container">
-                
-                <h2 style="text-align:center;">Tabela takmicenja</h2>
+                <h1 style="text-align:center;"><span class="label label-primary">Tabela takmičenja</span></h1>
                 <div class="row" id="row1">
                     <div id="divLevi" class="col-md-2">
                         <br>
-                        <button id="btnUnosTakmicenje" class="btn btn-info">Unos takmicenja</button>
+                        <button id="btnUnosTakmicenje" class="btn btn-info">Unos takmičenja</button>
 
                     </div>
                     <div id="divDesni" class="col-md-10">

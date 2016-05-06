@@ -6,16 +6,17 @@
         <link href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/jquery-ui.min.css" rel="stylesheet">
+    <link rel="icon" href="assets/css/images/ball.png" />
     </head>
     <body onload="ucitajLige()">
 
         <ul class="nav nav-pills" id="navMeni">
-            <li role="presentation"><a href="pocetna.html">Rad sa takmicenjima</a></li>
+            <li role="presentation"><a href="pocetna.html">Rad sa takmičenjima</a></li>
             <li role="presentation"><a href="lige.html">Rad sa ligama</a></li>
-            <li role="presentation"><a href="takmicari.html">Rad sa takmicarima</a></li>
+            <li role="presentation"><a href="takmicari.html">Rad sa takmičarima</a></li>
 
-            <li class="dropdown">
-                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Takmicenja <b class="caret"></b></a>
+            <li class="dropdown" >
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Takmičenja <b class="caret"></b></a>
                 <ul class="dropdown-menu" id="slctTakmicenja">
                 </ul>
             </li>
@@ -23,7 +24,7 @@
         
         <section id="tabeleSection">
             <div class="container">
-                <h2 style="text-align:center;">Tabela lige</h2>
+                <h1 style="text-align:center;"><span class="label label-primary">Lige</span></h1>
                 <div class="row" id="row1">
                     <div id="divLevi" class="col-md-2">
                         <button id="btnUnosLige" class="btn btn-info">Unos nove lige</button>
@@ -35,8 +36,8 @@
             </div>
         </section>
         
+        <!--dialog modal-->
         <div id="dialog-form" title="Dodavanje nove lige" hidden="hidden">
-    
             <form>
                 <fieldset>
 
@@ -54,9 +55,8 @@
                 <!-- Allow form submission with keyboard without duplicating the dialog button -->
                 <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
                 </fieldset>
-    </form>
-            
-</div>
+            </form>     
+        </div>
 
         <script type="text/javascript" src="assets/bower_components/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

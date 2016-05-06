@@ -1,17 +1,6 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-$('#btnUnosLige').click(function (){
-    
-    
-    
-    
-});
 
 var lige;
+
 function ucitajLige() {
     $.ajax({
         url: 'http://localhost:8084/tenis/rest/liga',
@@ -34,7 +23,7 @@ function napuniTabeluLiga() {
         table.border = '1';
         table.appendChild(table_body);
         var tHead = document.createElement('THEAD');
-        var arrayHeader = ["Naziv", "Broj takmicara", "Takmicenje"];
+        var arrayHeader = ["Naziv lige", "Broj takmičraa", "Naziv takmičenja"];
         for (var i = 0; i < arrayHeader.length; i++) {
             tHead.appendChild(document.createElement("TH")).appendChild(document.createTextNode(arrayHeader[i]));
         }

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -108,6 +109,22 @@ public class TakmicarRESTEndpoint {
                 return Response.ok().build();
             } else {
                 throw new DataNotFoundException("Ne postoji u bazi!");
+            }
+        } else {
+            throw new NotAuthorizedException("Niste ulogovani!");
+        }
+    }
+    
+    @DELETE
+    public Response updateTakmicar(@HeaderParam("authorization") String authorization, @QueryParam("id") int id) {
+        EntityManager em = help.getEntityManager();
+        if (help.isLogged(authorization, em)) {
+            Takmicar oldTakmicar = em.find(Takmicar.class, id);
+            if (oldTakmicar != null) {
+                help.removeObject(em, oldTakmicar);
+                return Response.ok().build();
+            } else {
+                throw new DataNotFoundException("Ne postoji u bazi takmicar!");
             }
         } else {
             throw new NotAuthorizedException("Niste ulogovani!");

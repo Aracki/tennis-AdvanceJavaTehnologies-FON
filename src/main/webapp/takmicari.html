@@ -6,16 +6,17 @@
         <link href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/css/jquery-ui.min.css" rel="stylesheet">
+        <link rel="icon" href="assets/css/images/ball.png" />
     </head>
     <body onload="ucitajTakmicare()">
 
         <ul class="nav nav-pills" id="navMeni">
-            <li role="presentation"><a href="pocetna.html">Rad sa takmicenjima</a></li>
+            <li role="presentation"><a href="pocetna.html">Rad sa takmičenjima</a></li>
             <li role="presentation"><a href="lige.html">Rad sa ligama</a></li>
-            <li role="presentation"><a href="takmicari.html">Rad sa takmicarima</a></li>
+            <li role="presentation"><a href="takmicari.html">Rad sa takmičarima</a></li>
 
             <li class="dropdown" >
-                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Takmicenja <b class="caret"></b></a>
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Takmičenja <b class="caret"></b></a>
                 <ul class="dropdown-menu" id="slctTakmicenja">
                 </ul>
             </li>
@@ -23,22 +24,26 @@
 
         <section id="tabeleSection">
             <div class="container">
-                
-                <h2 style="text-align:center;">Tabela svih takmičara</h2>
+                <h1 style="text-align:center;"><span class="label label-primary">Tabela svih takmičara</span></h1>
                 <div class="row" id="row1">
                     <div id="divLevi" class="col-md-2">
-                                        <label >Izaberi takmičenje</label>
-
-                         <select class="selectpicker" id="selectTakmicenja">
-                 </select>
+                                        <label >Izaberi takmičenje</label>    
+                                        
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Izaberi takmičenje
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" id="selectTakmicenja">
+                        </ul>
+                    </div>
+                                        
+                                        
+                                        
                 <label >Izaberi ligu</label>
                         
                          <select class="selectpicker" id="selectLige">
                  </select>
                 <br><br>
                         <button id="btnUnosTakmicara" class="btn btn-info">Unos takmičara</button>
-                        <br><br>    
-                        <button id="btnIzmeniTakmicara" type="button" class="btn btn-info" name="button">Izmeni takmičara</button>
                     </div>
                     <div id="divDesni" class="col-md-10">
                         <br>
