@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Takmicenje</title>
@@ -24,19 +18,24 @@ and open the template in the editor.
         <div class="row" style="padding-top: 50px;">        
             <div class="col-md-4">
                 <button id="btnUnosMeca" class="btn btn-info">Unesi novi meč</button>
-                <label >Izaberi ligu</label>    
-                    <select class="selectpicker" id="selectLige">
-                 </select>
+                <br>
+                <br>
+                <div style="padding-left: 30px;">
+                    <label style="float:left;">Izaberi ligu</label>   
+                    <br> 
+                    <div class="dropdown" style="width: 32%;">
+                            <select class="form-control" id="selectLige" >
+                                <option value="0" selected="" hidden="" disabled="">Izaberi ligu</option>
+                            </select>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <table class="table table-striped table-hover" id="tabelaTakmicari"></table>
             </div>
             <div class="col-md-4">
-                
             </div>
         </div>
-              
-       
         
         <!--DIALOG modal for unos meca-->
         <div id="dialog-dodavanje-meca" title="Dodavanje novog meca" hidden="hidden" style="width: 50%">    
@@ -61,7 +60,6 @@ and open the template in the editor.
                 </fieldset>
             </form>
         </div>  
-        
         
         <script type="text/javascript" src="assets/bower_components/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

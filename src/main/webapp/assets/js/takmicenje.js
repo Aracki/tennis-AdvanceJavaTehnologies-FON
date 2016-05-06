@@ -181,12 +181,13 @@ function napuniComboBoxLige(lige){
     
     var options = $("#selectLige");
     options.find('option')
-    .remove()
-    .end();
+            .end();
+   
     if(lige){
         $.each(lige, function() {
             options.append($("<option />").val(this.ligaID).text(this.naziv));
         });        
+        
     } else {
         options.append($("<option />").val('').text(''));
     }
