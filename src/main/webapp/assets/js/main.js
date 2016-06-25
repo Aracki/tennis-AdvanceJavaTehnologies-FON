@@ -203,13 +203,20 @@ function ubaciTipove() {
     // dodavanje takmicenja
     $('#btnDodajTakmicenje').click(function () {
 
+        var naziv = $('#naziv').val();
+
         var str = {
-            naziv: $('#naziv').val(),
+            naziv: naziv,
             datumPocetka: new Date(),
             tiptakmicenja: {
                 tiptakmicenjaID: $('#ido').val(),
             }
         };
+        
+        if (naziv === "") {
+            alert("Niste ispravno uneli podatke!");
+            return;
+        }
 
         $.ajax({
             url: 'http://localhost:8084/tenis/rest/takmicenje',
