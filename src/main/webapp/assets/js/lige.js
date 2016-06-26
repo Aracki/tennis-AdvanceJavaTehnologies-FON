@@ -92,6 +92,10 @@ function dodajLigu() {
       var brTakmicara = $('#brojTakmicara').val();
       var takmicenjeId = $('#selectTakmicenja').val();
  
+      if (brTakmicara === 'undefined' || brTakmicara < 2) {
+          valid = false;
+      }
+ 
       if ( valid ) {
         
         var liga = {
@@ -119,14 +123,14 @@ function dodajLigu() {
                 alert("Greska pri unosu lige!");
             }
         });
+      } else {
+          alert("Niste uneli ispravno podatke!");
       }
       return valid;
 }
-
     $('#btnUnosLige').click(function(){
         dialog.dialog("open");
     });
-
 });
 
   function checkLength( o, n, min, max ) {

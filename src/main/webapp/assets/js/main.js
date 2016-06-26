@@ -320,7 +320,7 @@ $(document).on('click', '[id^=' + 'DDD' + "]", function () {
             var niz = id.split('DDD');
             var id1 = niz[1];
 
-            var r = confirm("Da li ste sigurni?");
+            var r = confirm("Da li ste sigurni da zelite da obrisete takmicenje?");
                 if (r === true) {
                     $.ajax({
                         url: baseUrlRest + "takmicenje/" + id1,
