@@ -255,6 +255,8 @@ function ucitajTakmicare() {
 }
 function napuniTabeluTakmicara() {
     
+    console.info("main.js > napuniTabeluTakmicara()");
+    
     var table = document.getElementById('tabelaTakmicari');
     table.innerHTML = "";
     
@@ -296,7 +298,7 @@ function napuniTabeluTakmicara() {
                         var b = document.createElement('BUTTON');
                         b.className = "btn btn-info";
                         b.appendChild(document.createTextNode("Izmeni"));
-                        b.id = "III" + takmicari[x].takmicarID;
+                        b.id = "III" + takmicari[x].takmicarID + "iii" + takmicari[x].liga.ligaID;
                         td.appendChild(b);
                         break;
                     case 5:
@@ -425,12 +427,28 @@ function ucitajModal(){
 
 function sacuvajIzmeneTakmicara(){
     
+    valid = true;
+    
     var ime = $('#ime').val();
     var prezime = $('#prezime').val();
     var opis = $('#opis').val();
     var ptt = $('#selectMesto').val();
     var ligaId = $('#selectLige').val();
     
+    if (ime === "" || prezime ==="" || opis === "" || ptt === "") {
+          valid = false;
+      }
+      
+      if(valid === false){
+          alert("Niste ispravno uneli podatke za izmenu takmičara!");
+          return;
+      }
+      
+      if (trenutniTakmicarLigaId === null || ligaId === '') {
+          alert("Niste izabrali ligu za koju želite uneti takmičara!");
+          return;
+      }
+      
     var takmicarJson = {
         ime: ime,
         prezime: prezime,
@@ -440,7 +458,7 @@ function sacuvajIzmeneTakmicara(){
             ptt: ptt
         },
         liga: {
-            ligaID: ligaId
+            ligaID: trenutniTakmicarLigaId
         }
     }
     
@@ -469,9 +487,12 @@ $(document).on('click', '[id^=' + 'III' + "]", function () {
             var id = jQuery(this).attr("id");
             var niz = id.split('III');
             var id1 = niz[1];
+            var niz2 = id1.split('iii');
+            id1 = niz2[0];
+            ligaId = niz2[1];
             idSelectedTakmicar = id1;
             
-            ucitajTakmicara(id1);
+            ucitajTakmicara(id1, ligaId);
 });
 
 // function for deleting takmicar
@@ -484,7 +505,7 @@ $(document).on('click', '[id^=' + 'XXX' + "]", function () {
             obrisiTakmicara(id1);
 });
 
-function ucitajTakmicara(id){
+function ucitajTakmicara(id, ligaId){
     $.ajax({
         url: 'http://localhost:8084/tenis/rest/takmicar?idTakmicara=' + id,
         dataType: 'json',
@@ -493,7 +514,7 @@ function ucitajTakmicara(id){
             'Authorization': getCookie('token')
         },
         success: function (response) {
-            napuniPoljaEditTakmicara(response);
+            napuniPoljaEditTakmicara(response, ligaId);
         }
     });
 }
@@ -513,12 +534,16 @@ function obrisiTakmicara(id){
     });
 }
 
-function napuniPoljaEditTakmicara(takmicarJson){
+var trenutniTakmicarLigaId;
+
+function napuniPoljaEditTakmicara(takmicarJson, ligaId){
     $('#ime').val(takmicarJson.ime);
     $('#prezime').val(takmicarJson.prezime);
     $('#opis').val(takmicarJson.opis);
     $('#selectMesto').val(takmicarJson.mesto.ptt);
     $('#selectMesto').change();
+    
+    trenutniTakmicarLigaId = ligaId;
 
     dialogEditTakmicar.dialog("open");
 }

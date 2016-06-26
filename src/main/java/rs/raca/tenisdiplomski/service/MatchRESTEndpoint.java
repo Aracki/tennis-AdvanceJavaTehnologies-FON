@@ -19,7 +19,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import rs.raca.tenisdiplomski.domain.Mec;
-import rs.raca.tenisdiplomski.domain.Mec_;
 import rs.raca.tenisdiplomski.domain.Takmicar;
 import rs.raca.tenisdiplomski.exception.DataNotFoundException;
 import rs.raca.tenisdiplomski.exception.MyRollbackException;

@@ -74,15 +74,17 @@ function napuniStranicu(takmicenjeJson){
 }
 
 function napuniTabeluTakmicara() {
+    
+    console.info("takmicenje.js > napuniTabeluTakmicara()");
         
-    var table = document.getElementById('tabelaTakmicari');
+    var table = document.getElementById('tabelaTakmicariZaMec');
     table.innerHTML = "";
     
     if (typeof takmicari !== "undefined") {
         var table_body = document.createElement('TBODY');
         table.appendChild(table_body);
         var tHead = document.createElement('THEAD');
-        var arrayHeader = ["Ime", "Prezime", "Opis", "Broj pobeda"];
+        var arrayHeader = ["Ime", "Prezime", "Opis", "Broj pobeda", "Broj poena"];
         var tr = tHead.appendChild(document.createElement('TR'));        
         for (var i = 0; i < arrayHeader.length; i++) {
             tr.appendChild(document.createElement("TH")).appendChild(document.createTextNode(arrayHeader[i]));
@@ -92,7 +94,7 @@ function napuniTabeluTakmicara() {
         for (var x = 0; x < takmicari.length; x++) {
             var tr = document.createElement('TR');
             table_body.appendChild(tr);
-            for (var j = 0; j < 4; j++) {
+            for (var j = 0; j < 5; j++) {
                 var td = document.createElement('TD');
                 td.width = '50';
                 switch (j) {
@@ -108,6 +110,9 @@ function napuniTabeluTakmicara() {
                         break;
                     case 3:
                         td.appendChild(document.createTextNode(takmicari[x].brojPobeda));
+                        break;
+                    case 4:
+                        td.appendChild(document.createTextNode(takmicari[x].brojPoena));
                         break;
                     default:
                 }
@@ -205,6 +210,11 @@ function dodajMec(){
     var domacin = $('#slctDomacin').val();
     var gost = $('#slctGost').val();
     var rezultat = $('#rezultat').val();
+    
+    if (domacin === gost) {
+        alert("Sistem ne može da zapamti novi meč \n Niste ispravno izabrali takmičare!");
+        return;
+    }
     
     var mec = {
         rezultat: rezultat,
