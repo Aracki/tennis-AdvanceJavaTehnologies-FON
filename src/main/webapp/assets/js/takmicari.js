@@ -140,6 +140,10 @@ function dodajTakmicara() {
       var prezime = $('#prezime1').val();
       var opis = $('#opis1').val();
       var mesto = $('#selectMesto1').val();
+      
+      if (ime === "" || prezime ==="" || opis === "" || mesto === "") {
+          valid = false;
+      }
 
       if ( valid ) {
         var takmicar = {
@@ -168,6 +172,8 @@ function dodajTakmicara() {
                 alert("Greska pri unosu takmicara!");
             }
         });
+      } else {
+          alert("Niste ispravno uneli podatke za takmičara!");
       }
       return valid;
 }
