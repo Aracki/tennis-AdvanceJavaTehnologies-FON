@@ -1,2 +1,1 @@
-# tenis-njt-diplomski
-Diplomski @Fon 2015/16
+# Napredne java tehnologije. Diplomski. Fakultet Organizacionih Nauka. Mart 2017
